@@ -28,6 +28,10 @@ public class Controller {
         return this.pathFile;
     }
 
+    void setCurrentFile(String path) {
+        this.pathFile = path;
+    }
+
     void writeStringOnCurrentFile(String content) throws IOException{
         try {
             PrintStream ps = new PrintStream(pathFile, StandardCharsets.UTF_8);
