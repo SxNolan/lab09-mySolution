@@ -11,14 +11,18 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -82,8 +86,12 @@ public class BadIOGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("I'm working.");
-                try (PrintStream hi = new PrintStream(PATH)) {
-                    hi.read(); //Problem here; to be completed.
+                File myFile = new File(PATH);
+                try (Scanner myScanner = new Scanner(myFile)) {
+                    while (myScanner.hasNextLine()) {
+                        String currentRow = myScanner.nextLine();
+                        System.out.println(currentRow);
+                    }
                 } catch (FileNotFoundException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace();
