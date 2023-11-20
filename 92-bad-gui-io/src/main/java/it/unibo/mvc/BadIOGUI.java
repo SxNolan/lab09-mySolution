@@ -1,5 +1,6 @@
 package it.unibo.mvc;
 
+import javax.security.auth.login.CredentialExpiredException;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -39,6 +41,7 @@ public class BadIOGUI {
      * Creates a new BadIOGUI.
      */
     public BadIOGUI() {
+        
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
         final JButton write = new JButton("Write on file");
@@ -66,9 +69,32 @@ public class BadIOGUI {
                 }
             }
         });
+        final JPanel myPanel = new JPanel();
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.X_AXIS));
+        canvas.add(myPanel, BorderLayout.CENTER);
+
+        myPanel.add(write);
+
+        JButton read = new JButton("Read");
+        myPanel.add(read);
+        read.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("I'm working.");
+                try (PrintStream hi = new PrintStream(PATH)) {
+                    hi.read(); //Problem here; to be completed.
+                } catch (FileNotFoundException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+            }
+            
+        });
     }
 
     private void display() {
+        frame.pack();
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -76,7 +102,7 @@ public class BadIOGUI {
          * setups, other facilities exist (see the Java documentation about this
          * issue). It is MUCH better than manually specify the size of a window
          * in pixel: it takes into account the current resolution.
-         */
+         *
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -90,6 +116,7 @@ public class BadIOGUI {
         /*
          * OK, ready to push the frame onscreen
          */
+
         frame.setVisible(true);
     }
 
