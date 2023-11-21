@@ -7,9 +7,9 @@ import java.util.List;
  */
 public interface Controller {
 
-    void setNextString();
+    void setNextString(String nextString);
 
-    void getNextString();
+    String getNextString(String CurrentString);
 
     List<String> getHistoryPrintedStrings();
 
