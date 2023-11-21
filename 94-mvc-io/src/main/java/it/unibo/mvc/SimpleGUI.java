@@ -44,6 +44,7 @@ public final class SimpleGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                myTextArea.setText(null);
                 for (String elem : myController.getHistoryPrintedStrings()) {
                     myTextArea.append(elem + " | ");
                 }
